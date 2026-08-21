@@ -1,0 +1,282 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MERIDIAN — luxury design system
+   Dark-first. Light theme via `.light` class on <html>.
+   ============================================================ */
+
+@custom-variant light (&:where(.light, .light *));
+
+:root {
+  /* Dark (default) — graphite / charcoal / near-black */
+  --bg: #0a0a0b;
+  --bg-2: #0f0f11;
+  --bg-3: #16161a;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --text: #f6f5f2;
+  --muted: #9b9ba3;
+  --faint: #64646b;
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --accent: #c9a86a;         /* champagne gold */
+  --accent-2: #e6cf9c;
+  --accent-ink: #0a0a0b;     /* text on accent fills */
+  --glass: rgba(12, 12, 14, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --shadow: rgba(0, 0, 0, 0.6);
+  --hero-glow: rgba(201, 168, 106, 0.16);
+  color-scheme: dark;
+}
+
+.light {
+  /* Pearl / soft-gray / champagne */
+  --bg: #f3f1ec;
+  --bg-2: #f7f5f1;
+  --bg-3: #ffffff;
+  --surface: rgba(20, 18, 14, 0.035);
+  --surface-2: rgba(20, 18, 14, 0.06);
+  --text: #17161a;
+  --muted: #55535a;
+  --faint: #8a8890;
+  --line: rgba(20, 18, 14, 0.12);
+  --line-strong: rgba(20, 18, 14, 0.22);
+  --accent: #997a3f;         /* deeper champagne for contrast */
+  --accent-2: #b8925a;
+  --accent-ink: #fbf9f4;
+  --glass: rgba(248, 246, 242, 0.6);
+  --glass-border: rgba(20, 18, 14, 0.08);
+  --shadow: rgba(60, 52, 38, 0.18);
+  --hero-glow: rgba(153, 122, 63, 0.14);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-display);
+
+  --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto; /* Lenis handles smoothing */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+  letter-spacing: 0.01em;
+  transition: background-color 0.7s var(--ease-lux), color 0.7s var(--ease-lux);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ---------- Smooth theme cross-fade ----------
+   Added to <html> only for the ~700ms of a theme switch, so the whole UI
+   (surfaces, borders, text, icons) eases between palettes instead of snapping.
+   Removed afterwards so it never interferes with normal interaction motion. */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.6s var(--ease-lux), border-color 0.6s var(--ease-lux),
+    color 0.6s var(--ease-lux), fill 0.6s var(--ease-lux), stroke 0.6s var(--ease-lux),
+    box-shadow 0.6s var(--ease-lux) !important;
+  transition-delay: 0s !important;
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent); background-clip: content-box; }
+
+/* ---------- Typography helpers ---------- */
+.font-display { font-family: var(--font-display), Georgia, serif; }
+.text-balance { text-wrap: balance; }
+.tracking-luxe { letter-spacing: 0.28em; }
+.tracking-wide-2 { letter-spacing: 0.14em; }
+
+.eyebrow {
+  font-family: var(--font-inter), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.gold-text {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 45%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Surfaces ---------- */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid var(--glass-border);
+}
+
+.hairline { border: 1px solid var(--line); }
+
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.5s var(--ease-lux), background-color 0.5s var(--ease-lux),
+    color 0.5s var(--ease-lux), border-color 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+  will-change: transform;
+}
+.btn-primary {
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid var(--text);
+}
+.btn-primary:hover { box-shadow: 0 18px 50px -18px var(--shadow); }
+.btn-gold {
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: var(--accent-ink);
+  border: 1px solid transparent;
+}
+.btn-gold:hover { box-shadow: 0 18px 55px -16px var(--hero-glow); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* underline link */
+.link-underline {
+  position: relative;
+  padding-bottom: 2px;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-lux);
+}
+.link-underline:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---------- Reveal resting state (no-JS friendly) ---------- */
+[data-reveal] { will-change: transform, opacity; }
+
+/* ---------- Custom cursor ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .cursor-none-lux, .cursor-none-lux * { cursor: none !important; }
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease-lux), height 0.35s var(--ease-lux),
+    border-color 0.35s var(--ease-lux), background-color 0.35s var(--ease-lux);
+}
+.cursor-ring[data-variant="hover"] {
+  width: 68px; height: 68px;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { display: inline-flex; animation: marquee 34s linear infinite; }
+
+/* ---------- Misc ---------- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.section-pad { padding-left: clamp(1.25rem, 5vw, 6rem); padding-right: clamp(1.25rem, 5vw, 6rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track { animation: none; }
+}
